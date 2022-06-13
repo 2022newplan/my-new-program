@@ -1,7 +1,7 @@
 node {
     def mavenhome = tool name: 'maven-home', type: 'maven'
     stage('Git-checkout') { 
-         git credentialsId: 'gits-credential-pipeline', url: 'https://github.com/2022newplan/my-new-program.git'
+         git branch: 'main', credentialsId: 'gits-credential-pipeline', url: 'https://github.com/2022newplan/my-new-program.git'
     }
     stage('Clean-Compile') { 
         sh "${maven-home}/bin/mvn clean compile" 
