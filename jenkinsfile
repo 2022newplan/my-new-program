@@ -3,7 +3,7 @@ node {
     stage('Git-checkout') { 
          git branch: 'main', credentialsId: 'gits-credential-pipeline', url: 'https://github.com/2022newplan/my-new-program.git'
     }
-    stage('Clean-Compile') { 
+    stage('Maven Clean-Compile') { 
         sh "${maven-home}/bin/maven clean compile" 
     }
     stage('Package') { 
