@@ -1,11 +1,12 @@
-node {  
+node {
+    def mavenhome = tool name: 'maven-home', type: 'maven'
     stage('Git-checkout') { 
-        // 
+         git credentialsId: 'gits-credential-pipeline', url: 'https://github.com/2022newplan/my-new-program.git'
     }
     stage('Clean-Compile') { 
-        // 
+        sh "$(maven-home)/bin/mvn clean compile" 
     }
     stage('Package') { 
-        // 
+        sh "${maven-home}/bin/mvn package" 
     }
 }
