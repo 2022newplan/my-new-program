@@ -4,9 +4,9 @@ node {
          git branch: 'main', credentialsId: 'gits-credential-pipeline', url: 'https://github.com/2022newplan/my-new-program.git'
     }
     stage('Clean-Compile') { 
-        sh "${maven-home}/bin/mvn clean compile" 
+        sh "${mavenhome}/bin/mvn clean compile" 
     }
     stage('Package') { 
-        sh "${maven-home}/bin/mvn package" 
+        sh "${mavenhome}/bin/mvn package" 
     }
 }
