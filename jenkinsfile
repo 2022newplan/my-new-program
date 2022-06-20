@@ -1,5 +1,5 @@
-node {
-    def mavenhome = tool name: 'maven-home', type: 'maven'
+'''node {
+    de mavenhome = tool name: 'maven-home', type: 'maven'
     stage('Git-checkout') { 
          git branch: 'main', credentialsId: 'gits-credential-pipeline', url: 'https://github.com/2022newplan/my-new-program.git'
     }
@@ -9,4 +9,8 @@ node {
     stage('Package') { 
         sh "${mavenhome}/bin/mvn package" 
     }
-}
+	stage('Tomcat-Deployment') { 
+        sshagent(['ec2-user']) {
+			    sh 'scp -o StrictHostKeyChecking=no target/web-app.war ec2-user@35.183.40.93:/opt/tomcat/webapps'
+    }
+}'''
