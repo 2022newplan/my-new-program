@@ -9,8 +9,21 @@
     stage('Package') { 
         sh "${mavenhome}/bin/mvn package" 
     }
+    stage('Sonar-Analysis') { 
+		withSonarQubeEnv(credentialsId: 'sonar-credential') {
+			sh "${mavenhome}/bin/mvn sonar:sonar"
+			}
+    }
+    stage("Quality Gate"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      } 
 	stage('Tomcat-Deployment') { 
         sshagent(['ec2-user']) {
-			    sh 'scp -o StrictHostKeyChecking=no target/web-app.war ec2-user@35.183.40.93:/opt/tomcat/webapps'
+			    sh 'scp -o StrictHostKeyChecking=no target/web-app.war ec2-user@35.182.246.170:/opt/tomcat/webapps'
     }
 }'''
